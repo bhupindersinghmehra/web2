@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="css/bootstap.css"> -->
+    <script src="js/jquery.js"></script>
+  
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+    <div class="container"  id="app">
+        <div class="row">
+            <div class="col-sm-3" ></div>
+            <a href="AddCourse.html" class = "col-sm-6" style="color: white"><button type="button"  class="btn btn-danger col-sm-12" >Add Courses</button></a>
+            <div class="col-sm-2" ></div>
+        </div>
+        <br><br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Course Id</th>
+                <th>Course Name</th>
+                <th>Batches</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="course in courses">
+                <td>{{course.courseid}}</td>
+                <td>{{course.courseName}}</td>
+             
+                <td><button type="button" class="btn btn-danger" v-on:click="viewBatches(course.id)">Batchees</button></td>
+               
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<!-- Latest compiled and minified JavaScript -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="course.js">
+</script>
+
+</html>

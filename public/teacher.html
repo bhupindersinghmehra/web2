@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstap.css">
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#header").load("header.html");
+        });
+    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+<div id="header"></div>
+    <div class="container"  id="app">
+        <div class="row">
+            <div class="col-sm-3" ></div>
+            <a href="AddTeacher.html" class = "col-sm-6" style="color: white"><button type="button"  class="btn btn-secondary col-sm-12" >Add Teacher</button></a>
+            <div class="col-sm-2" ></div>
+        </div>
+        <br><br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Teacher Id</th>
+                <th>Teacher Name</th>
+                <th>XYZ</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="teacher in teachers">
+                <td>{{teacher.teacherid}}</td>
+                <td>{{teacher.teacherName}}</td>
+                <!--<td>{{course.id}}</td>-->
+            <!--    <td><button type="button" class="btn btn-primary" v-on:click="viewBatches(teacher.teacherid)">Batchees</button></td>-->
+            
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script >
+
+    let app = new Vue({
+        el: "#app",
+        data:{
+            teachers:[]
+        },
+        methods: {
+            getAllTeachers() {
+                new Promise((resolve) => {
+                    axios.get('api/teachers').then(function (response) {
+                    resolve(response.data)
+                })
+            }).then((data) => {
+                    console.log(data)
+                this.teachers = data
+                // console.log(this.students)
+            }).catch((err)=>{
+                    console.log(err)
+            })
+            }
+        }
+
+    })
+    app.getAllTeachers();
+</script>
+<!-- Latest compiled and minified JavaScript -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</html>

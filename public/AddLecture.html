@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstap.css">
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#header").load("header.html");
+        });
+    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+<div id="header"></div>
+
+<div class="container">
+    <h2>Add Lecture</h2>
+    <form id="demo">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" placeholder="Enter Subject name"  v-model="name" required>
+        </div>
+        <div class="form-group">
+            <label for="vendor">Select Subject</label>
+            <select class="form-control" id="sel1" v-model="teacherId"  >
+            
+                <option v-for="teacher in teachers"
+                        :value="teacher.id">{{ teacher.name }} </option>
+             
+            </select>
+        </div>
+
+        <button class="btn btn-danger" v-on:click= "addSubject">Add Subjecta</button>
+    </form>
+
+</div>
+
+</body>
+</html>
+
+<script>
+    let app =new Vue({
+        el: '#demo',
+        data: {
+            name  : '',
+            courses : [],
+            CourseId: '',
+            teacherId : '',
+            teachers : []
+        },
+        methods : {
+            addSubject() {
+                var obj = {subjectName: this.name ,teacherId : this.teacherId};
+                console.log(obj)
+
+                console.log('/api/courses'+this.courseId);
+                new Promise((resolve) => {
+                    axios.post('/api/courses/'+this.courseId+'/lectures', obj).then(function (data) {
+                    resolve(data.data)
+                
+                })
+            }).then((data) => {
+                    console.log(data)
+            })
+              
+                window.location = "course.html";
+            
+            },
+            init(){
+                var ids =window.location.search ;
+                console.log(ids.substr(ids.indexOf("=")+1) )
+                this.courseId = ids.substr(ids.indexOf("=")+1);
+                console.log(this.courseId)
+            },
+            findAllTeachers(){
+                new Promise((resolve)=>{
+                    axios.get('/teachers').then(function (data) {
+                    resolve(data.data)
+                    console.log(data.data)
+                })
+            }).then((data)=>{
+                    this.teachers = data
+            })
+            }
+        }
+
+    })
+    app.init()
+    app.findAllTeachers();
+
+</script>
+</body>
+</html>

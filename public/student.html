@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstap.css">
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $("#header").load("header.html");
+        });
+    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+    <div class="container"  id="app">
+        <div class="row">
+            <div class="col-sm-3" ></div>
+            <a href="AddStudent.html" class = "col-sm-6" style="color: white"><button type="button"  class="btn btn-danger col-sm-12" >Add Student</button></a>
+            <div class="col-sm-2" ></div>
+        </div>
+        <br><br>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Student Id</th>
+                <th>Student Name</th>
+                <th>XYZ</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="student in students">
+                <td>{{student.studentid}}</td>
+                <td>{{student.studentName}}</td>
+               
+               
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script >
+
+    let app = new Vue({
+        el: "#app",
+        data:{
+            students:[],
+            vendors : []
+        },
+        methods: {
+            getAllStudents() {
+                new Promise((resolve) => {
+                    axios.get('api/students').then(function (response) {
+                    resolve(response.data)
+                })
+            }).then((data) => {
+                    console.log(data)
+                this.students = data
+                // console.log(this.students)
+            }).catch((err)=>{
+                    console.log(err)
+            })
+            }
+        }
+
+    })
+    app.getAllStudents();
+</script>
+<!-- Latest compiled and minified JavaScript -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</html>

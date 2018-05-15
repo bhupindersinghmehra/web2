@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstap.css">
+    <script src="js/jquery.js"></script>
+
+    <script>
+        $(function(){
+            $("#header").load("header.html");
+        });
+    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+    
+</head>
+<body>
+<div id="header"></div>
+<div class="container"  id="app">
+    <div class="row">
+        <div class="col-sm-3" ></div>
+        <a class = "col-sm-6" style="color: white">
+            <button type="button"  class="btn btn-secondary col-sm-12"  v-on:click="AddBatch()">Add Lecture</button>
+        </a>
+        <div class="col-sm-2" ></div>
+    </div>
+    <br><br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th> Id</th>
+       
+            <th>Lecture Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="lecture in lectures">
+            <td>{{lecture.lectureid}}</td>
+       
+            <td>{{lecture.lectureName}}</td>
+         
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script >
+
+    let abc = new Vue({
+        el: "#app",
+        data:{
+            lectures : [],
+            batchId : ''
+        },
+        methods: {
+            getAllLectures() {
+                var ids =window.location.search ;
+                console.log(ids);
+               
+                this.batchId = ids.substr(ids.indexOf("=")+1);
+           
+                new Promise((resolve) => {
+                    axios.get('api/courses/'+this.batchId+'/lectures').then(function (response) {
+                    resolve(response.data)
+                })
+            }).then((data) => {
+                    console.log("this is data")
+                     console.log(data)
+                this.lectures = data
+              
+            }).catch((err)=>{
+                    console.log(err)
+            })
+            },
+            AddBatch(){
+                window.location = "AddLecture.html?id="+this.batchId;
+            }
+
+
+
+        }
+
+    })
+    abc.getAllLectures();
+ 
+</script>
+
+</html>

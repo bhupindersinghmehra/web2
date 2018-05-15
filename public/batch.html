@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstap.css">
+    <script src="js/jquery.js"></script>
+
+    <script>
+        $(function(){
+            $("#header").load("header.html");
+        });
+    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+
+</head>
+<body>
+<div id="header"></div>
+<div class="container"  id="app">
+    <div class="row">
+        <div class="col-sm-3" ></div>
+            <a class = "col-sm-6" style="color: white">
+                <button type="button"  v-on:click="AddBatch()" class="btn btn-primary col-sm-12" >Add Batch</button>
+            </a>
+        <div class="col-sm-2" ></div>
+    </div>
+    <br><br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Batch Id</th>
+            
+            <th>Batch Name</th>
+    
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="batch in batchs">
+            <td>{{batch.id}}</td>
+            
+            <td>{{batch.name}}</td>
+            <!--<td>{{course.id}}</td>-->
+            <!-- <td><button type="button" class="btn btn-primary" v-on:click="viewLecture(batch.id)">Lecturs</button></td>
+            <td><button type="button" class="btn btn-primary" v-on:click="viewStudent(batch.id)">Students</button></td> -->
+            <!--<td>-->
+            <!--<button type="button" class="btn btn-primary" v-on:click="changequantity(cartItem.productId,-1)">-</button>-->
+            <!--{{cartItem.quantity}}-->
+            <!--<button type="button" class="btn btn-primary" v-on:click="changequantity(cartItem.productId,+1)">+</button>-->
+            <!--</td>-->
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script >
+
+    let abc = new Vue({
+        el: "#app",
+        data:{
+            batchs : [],
+            courseId : ''
+        },
+        methods: {
+            getAllBatches() {
+                var ids =window.location.search ;
+               // console.log(ids.substr(ids.indexOf("=")+1) )
+                this.courseId = ids.substr(ids.indexOf("=")+1);
+                // console.log(this.courseId)
+                new Promise((resolve) => {
+                    axios.get('/api/courses/'+this.courseId+'/batches').then(function (response) {
+                    resolve(response.data)
+                })
+            }).then((data) => {
+                    console.log("this is data")
+                    console.log(data)
+                    this.batchs = data
+                // console.log(this.products)
+            }).catch((err)=>{
+                    console.log(err)
+            })
+            },
+            viewLecture(id){
+                window.location = "lecture.html?id="+this.courseId +"/batches/"+id;
+            },
+            viewStudent(id){
+                window.location = "courseStudent.html?id="+this.courseId +"/batches/"+id;
+            },
+            AddBatch(){
+                window.location = "AddBatch.html?id="+this.courseId +"/batches/";
+            }
+
+
+        }
+
+    })
+    abc.getAllBatches();
+    // app.findAllVendors();
+</script>
+
+</html>
